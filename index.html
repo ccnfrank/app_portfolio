@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christian Frank — Ferramentas no navegador</title>
+  <meta name="description" content="Pequenas ferramentas web feitas por Christian Frank: notas, calculadoras, simuladores e utilitários.">
+  <script>
+    // Aplica o tema salvo antes da primeira pintura para evitar flash.
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top">
+    <a class="name" href="#top">Christian Frank</a>
+    <nav class="top-nav" aria-label="Principal">
+      <a href="#projetos">Projetos</a>
+      <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <button id="theme-toggle" class="theme-btn" type="button"></button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="intro">
+      <h1>
+        <span class="line"><span style="--i:0">Ferramentas pequenas,</span></span>
+        <span class="line"><span style="--i:1">abertas no navegador.</span></span>
+      </h1>
+      <p class="intro-text">
+        Notas, calculadoras, simuladores e utilitários que construí com HTML, CSS, JavaScript e React.
+        Nada para instalar: é só abrir.
+      </p>
+    </section>
+
+    <dl class="figures">
+      <div>
+        <dt>Apps</dt>
+        <dd data-stat="total">0</dd>
+      </div>
+      <div>
+        <dt>Categorias</dt>
+        <dd data-stat="categories">0</dd>
+      </div>
+      <div>
+        <dt>Tecnologias</dt>
+        <dd data-stat="tech">0</dd>
+      </div>
+    </dl>
+
+    <section id="projetos" class="index">
+      <div class="index-head">
+        <h2>Projetos</h2>
+        <label class="search">
+          <span class="sr-only">Buscar projetos</span>
+          <input id="search" type="search" placeholder="Buscar — pressione /" autocomplete="off">
+        </label>
+      </div>
+
+      <div id="filters" class="filters" role="group" aria-label="Filtrar por categoria"></div>
+
+      <ul id="list" class="list"></ul>
+      <p id="empty" class="empty" hidden>Nenhum projeto com esse termo.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Christian Frank, 2026</span>
+    <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">github.com/ccnfrank</a>
+  </footer>
+
+  <script src="js/projects.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
