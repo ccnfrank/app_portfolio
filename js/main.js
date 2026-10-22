@@ -2,11 +2,11 @@
   const ALL = 'Todos';
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const top = document.querySelector('.top');
   const list = document.getElementById('list');
   const filtersEl = document.getElementById('filters');
   const searchEl = document.getElementById('search');
   const emptyEl = document.getElementById('empty');
+  const showingEl = document.getElementById('sShowing');
   const themeBtn = document.getElementById('theme-toggle');
 
   let activeCategory = ALL;
@@ -20,7 +20,7 @@
     return node;
   };
 
-  const externalLink = (href, text, className = 'link') => {
+  const externalLink = (href, text, className) => {
     const a = el('a', className, text);
     a.href = href;
     a.target = '_blank';
@@ -43,7 +43,7 @@
     localStorage.setItem('theme', next);
   });
 
-  /* ---------- Linhas ---------- */
+  /* ---------- Cards ---------- */
   const buildRow = (project, index) => {
     const row = el('li', 'row');
     row.style.setProperty('--delay', `${index * 70 + 300}ms`);
@@ -51,15 +51,13 @@
       .join(' ')
       .toLowerCase();
 
-    const titleLink = externalLink(project.url, project.title, '');
-    const title = el('h3', 'row-title');
-    title.append(titleLink);
-
-    const desc = el('p', 'row-desc', project.description);
+    const top = el('div', 'row-top');
+    top.append(
+      el('span', 'row-num', String(index + 1).padStart(2, '0')),
+      el('span', 'row-cat', project.category),
+    );
 
     // Miniatura da tela do app: também leva ao site
-    const middle = el('div', 'row-middle');
-    middle.append(desc);
     if (project.thumb) {
       const thumbLink = externalLink(project.url, '', 'row-thumb');
       thumbLink.setAttribute('aria-label', `Abrir ${project.title}`);
@@ -70,20 +68,24 @@
       img.width = 1280;
       img.height = 800;
       thumbLink.append(img);
-      middle.append(thumbLink);
+      row.append(top, thumbLink);
+    } else {
+      row.append(top);
     }
 
-    const meta = el('p', 'row-meta');
-    meta.append(el('span', '', project.category), document.createTextNode(' · '), el('span', '', project.stack.join(', ')));
+    const title = el('h3', 'row-title');
+    title.append(externalLink(project.url, project.title));
+
+    const desc = el('p', 'row-desc', project.description);
+
+    const meta = el('div', 'row-meta');
+    meta.append(document.createTextNode(project.stack.join(' · ')));
     if (project.badge) meta.append(el('span', 'badge', project.badge));
 
-    const linksWrap = el('div', 'row-links');
-    linksWrap.append(externalLink(project.url, 'Abrir app', 'link link-strong'));
+    const foot = el('div', 'row-foot');
+    foot.append(meta, externalLink(project.url, 'Abrir app →', 'row-link'));
 
-    const side = el('div', 'row-side');
-    side.append(meta, linksWrap);
-
-    row.append(title, middle, side);
+    row.append(title, desc, foot);
     return row;
   };
 
@@ -130,6 +132,7 @@
     });
 
     emptyEl.hidden = visible > 0;
+    showingEl.textContent = String(visible).padStart(2, '0');
   };
 
   filtersEl.addEventListener('click', (e) => {
@@ -153,6 +156,7 @@
   });
 
   syncFilters();
+  applyFilters();
 
   /* ---------- Números ---------- */
   const countUp = (node, target) => {
@@ -183,9 +187,4 @@
   document.querySelectorAll('[data-stat]').forEach((node) => {
     countUp(node, figures[node.dataset.stat]);
   });
-
-  /* ---------- Cabeçalho ---------- */
-  const onScroll = () => top.classList.toggle('scrolled', window.scrollY > 10);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 })();

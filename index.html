@@ -15,67 +15,113 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header class="top">
-    <a class="name" href="#top">Christian Frank</a>
-    <nav class="top-nav" aria-label="Principal">
-      <a href="#projetos">Projetos</a>
-      <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button id="theme-toggle" class="theme-btn" type="button"></button>
-    </nav>
-  </header>
+  <!-- Capa -->
+  <section class="cover" id="top">
+    <div class="cover-bar">
+      <span>Ferramentas no navegador</span>
+      <span>Vol. 01</span>
+      <span>MMXXVI</span>
+    </div>
 
-  <main id="top">
-    <section class="intro">
-      <h1>
-        <span class="line"><span style="--i:0">Ferramentas pequenas,</span></span>
-        <span class="line"><span style="--i:1">abertas no navegador.</span></span>
-      </h1>
-      <p class="intro-text">
-        Notas, calculadoras, simuladores e utilitários que construí com HTML, CSS, JavaScript e React.
-        Nada para instalar: é só abrir.
-      </p>
-    </section>
+    <div class="cover-stage">
+      <div class="rail l">HTML · CSS · JavaScript</div>
+      <div class="rail r">React · Sem instalação</div>
+      <div class="tick tl"></div><div class="tick tr"></div><div class="tick bl"></div><div class="tick br"></div>
 
-    <dl class="figures">
-      <div>
-        <dt>Apps</dt>
-        <dd data-stat="total">0</dd>
-      </div>
-      <div>
-        <dt>Categorias</dt>
-        <dd data-stat="categories">0</dd>
-      </div>
-      <div>
-        <dt>Tecnologias</dt>
-        <dd data-stat="tech">0</dd>
-      </div>
-    </dl>
+      <div class="cover-content">
+        <div class="kicker">Índice de ferramentas web</div>
+        <h1 class="cover-title">Christian<em>Frank</em></h1>
+        <div class="rule-row">
+          <span>Est. MMXXVI</span>
+          <span class="rule"></span>
+          <span>Apps no navegador</span>
+        </div>
+        <p class="cover-desc">
+          Notas, calculadoras, simuladores e utilitários que construí com HTML, CSS, JavaScript e React.
+          Nada para instalar: é só abrir.
+        </p>
+        <a class="enter-btn" href="#projetos">Entrar no índice →</a>
 
-    <section id="projetos" class="index">
-      <div class="index-head">
-        <h2>Projetos</h2>
+        <dl class="cover-stats">
+          <div class="cell">
+            <dt class="l">Apps</dt>
+            <dd class="n" data-stat="total">0</dd>
+          </div>
+          <div class="cell">
+            <dt class="l">Categorias</dt>
+            <dd class="n" data-stat="categories">0</dd>
+          </div>
+          <div class="cell">
+            <dt class="l">Tecnologias</dt>
+            <dd class="n" data-stat="tech">0</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Índice -->
+  <div class="app" id="projetos">
+    <aside class="side">
+      <div>
+        <a class="logo-link" href="#top">
+          <div class="logo">Christian<br><em>Frank</em></div>
+        </a>
+        <div class="side-sub">Índice — Vol. 01</div>
+      </div>
+
+      <nav class="nav" aria-label="Principal">
+        <div class="nav-label">Seções</div>
+        <a href="#projetos">Projetos</a>
+        <a href="#top">Início</a>
+        <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+
+      <button id="theme-toggle" class="side-btn" type="button"></button>
+
+      <div class="side-stats">
+        <div class="stat"><span>Em índice</span><b data-stat="total">0</b></div>
+        <div class="stat"><span>Categorias</span><b data-stat="categories">0</b></div>
+        <div class="stat"><span>Mostrando</span><b class="red" id="sShowing">0</b></div>
+        <div class="fine">CHRISTIAN FRANK © 2026</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="head">
+        <div class="kicker2">Catálogo</div>
+        <h1>Projetos <em>no navegador</em></h1>
+        <p>Cada app abre direto no navegador. Filtre por categoria ou pressione / para buscar.</p>
+      </header>
+
+      <div class="filters">
         <label class="search">
           <span class="sr-only">Buscar projetos</span>
-          <input id="search" type="search" placeholder="Buscar — pressione /" autocomplete="off">
+          <input id="search" type="search" placeholder="Buscar no índice…" autocomplete="off">
         </label>
+        <div class="chip-group">
+          <span class="chip-label">CATEGORIA</span>
+          <div id="filters" role="group" aria-label="Filtrar por categoria" class="chips"></div>
+        </div>
       </div>
 
-      <div id="filters" class="filters" role="group" aria-label="Filtrar por categoria"></div>
+      <ul id="list" class="grid"></ul>
+      <div id="empty" class="empty" hidden>
+        <div class="big">Nada no índice</div>
+        <p>AJUSTE O FILTRO OU O TERMO DE BUSCA</p>
+      </div>
 
-      <ul id="list" class="list"></ul>
-      <p id="empty" class="empty" hidden>Nenhum projeto com esse termo.</p>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span>Christian Frank, 2026</span>
-    <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">github.com/ccnfrank</a>
-  </footer>
+      <footer class="foot">
+        <span>Christian Frank — ferramentas para o navegador</span>
+        <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">github.com/ccnfrank</a>
+      </footer>
+    </main>
+  </div>
 
   <script src="js/projects.js"></script>
   <script src="js/main.js"></script>
