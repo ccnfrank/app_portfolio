@@ -2,30 +2,21 @@
   const ALL = 'Todos';
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const top = document.querySelector('.top');
   const list = document.getElementById('list');
   const filtersEl = document.getElementById('filters');
   const searchEl = document.getElementById('search');
   const emptyEl = document.getElementById('empty');
+  const showingEl = document.getElementById('sShowing');
   const themeBtn = document.getElementById('theme-toggle');
 
   let activeCategory = ALL;
   let query = '';
-  const rows = [];
 
   const el = (tag, className, text) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text !== undefined) node.textContent = text;
     return node;
-  };
-
-  const externalLink = (href, text, className = 'link') => {
-    const a = el('a', className, text);
-    a.href = href;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    return a;
   };
 
   /* ---------- Tema ---------- */
@@ -43,63 +34,27 @@
     localStorage.setItem('theme', next);
   });
 
-  /* ---------- Linhas ---------- */
-  const buildRow = (project, index) => {
-    const row = el('li', 'row');
-    row.style.setProperty('--delay', `${index * 70 + 300}ms`);
-    row.dataset.search = [project.title, project.description, project.category, ...project.stack]
+  /* ---------- Cards ---------- */
+  // Os cards são escritos no index.html; aqui só lemos os dados para busca e filtros.
+  const rows = [...list.querySelectorAll('.row')].map((row) => {
+    const text = (selector) => row.querySelector(selector).textContent;
+    const category = row.dataset.cat;
+    const stack = text('.row-meta').split(' · ').map((s) => s.trim());
+
+    row.dataset.search = [text('.row-title'), text('.row-desc'), category, ...stack]
       .join(' ')
       .toLowerCase();
 
-    const titleLink = externalLink(project.url, project.title, '');
-    const title = el('h3', 'row-title');
-    title.append(titleLink);
-
-    const desc = el('p', 'row-desc', project.description);
-
-    // Miniatura da tela do app: também leva ao site
-    const middle = el('div', 'row-middle');
-    middle.append(desc);
-    if (project.thumb) {
-      const thumbLink = externalLink(project.url, '', 'row-thumb');
-      thumbLink.setAttribute('aria-label', `Abrir ${project.title}`);
-      const img = el('img');
-      img.src = project.thumb;
-      img.alt = '';
-      img.loading = 'lazy';
-      img.width = 1280;
-      img.height = 800;
-      thumbLink.append(img);
-      middle.append(thumbLink);
-    }
-
-    const meta = el('p', 'row-meta');
-    meta.append(el('span', '', project.category), document.createTextNode(' · '), el('span', '', project.stack.join(', ')));
-    if (project.badge) meta.append(el('span', 'badge', project.badge));
-
-    const linksWrap = el('div', 'row-links');
-    linksWrap.append(externalLink(project.url, 'Abrir app', 'link link-strong'));
-
-    const side = el('div', 'row-side');
-    side.append(meta, linksWrap);
-
-    row.append(title, middle, side);
-    return row;
-  };
-
-  PROJECTS.forEach((project, index) => {
-    const row = buildRow(project, index);
-    list.append(row);
-    rows.push({ row, project });
+    return { row, category, stack };
   });
 
   /* ---------- Filtros e busca ---------- */
-  const categories = [ALL, ...new Set(PROJECTS.map((p) => p.category))];
+  const categories = [ALL, ...new Set(rows.map((r) => r.category))];
 
   const filterButtons = categories.map((category) => {
     const count = category === ALL
-      ? PROJECTS.length
-      : PROJECTS.filter((p) => p.category === category).length;
+      ? rows.length
+      : rows.filter((r) => r.category === category).length;
 
     const btn = el('button', 'filter');
     btn.type = 'button';
@@ -119,8 +74,8 @@
     const q = query.trim().toLowerCase();
     let visible = 0;
 
-    rows.forEach(({ row, project }) => {
-      const matchCategory = activeCategory === ALL || project.category === activeCategory;
+    rows.forEach(({ row, category }) => {
+      const matchCategory = activeCategory === ALL || category === activeCategory;
       const matchQuery = !q || row.dataset.search.includes(q);
       const show = matchCategory && matchQuery;
 
@@ -130,6 +85,7 @@
     });
 
     emptyEl.hidden = visible > 0;
+    showingEl.textContent = String(visible).padStart(2, '0');
   };
 
   filtersEl.addEventListener('click', (e) => {
@@ -153,6 +109,7 @@
   });
 
   syncFilters();
+  applyFilters();
 
   /* ---------- Números ---------- */
   const countUp = (node, target) => {
@@ -175,17 +132,12 @@
   };
 
   const figures = {
-    total: PROJECTS.length,
-    categories: new Set(PROJECTS.map((p) => p.category)).size,
-    tech: new Set(PROJECTS.flatMap((p) => p.stack)).size,
+    total: rows.length,
+    categories: new Set(rows.map((r) => r.category)).size,
+    tech: new Set(rows.flatMap((r) => r.stack)).size,
   };
 
   document.querySelectorAll('[data-stat]').forEach((node) => {
     countUp(node, figures[node.dataset.stat]);
   });
-
-  /* ---------- Cabeçalho ---------- */
-  const onScroll = () => top.classList.toggle('scrolled', window.scrollY > 10);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 })();

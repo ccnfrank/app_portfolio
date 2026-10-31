@@ -15,69 +15,143 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header class="top">
-    <a class="name" href="#top">Christian Frank</a>
-    <nav class="top-nav" aria-label="Principal">
-      <a href="#projetos">Projetos</a>
-      <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button id="theme-toggle" class="theme-btn" type="button"></button>
-    </nav>
-  </header>
+  <!-- Capa -->
+  <section class="cover" id="top">
+    <div class="cover-bar">
+      <span>Ferramentas no navegador</span>
+      <span>Vol. 01</span>
+      <span>MMXXVI</span>
+    </div>
 
-  <main id="top">
-    <section class="intro">
-      <h1>
-        <span class="line"><span style="--i:0">Ferramentas pequenas,</span></span>
-        <span class="line"><span style="--i:1">abertas no navegador.</span></span>
-      </h1>
-      <p class="intro-text">
-        Notas, calculadoras, simuladores e utilitários que construí com HTML, CSS, JavaScript e React.
-        Nada para instalar: é só abrir.
-      </p>
-    </section>
+    <div class="cover-stage">
+      <div class="rail l">HTML · CSS · JavaScript</div>
+      <div class="rail r">React · Sem instalação</div>
+      <div class="tick tl"></div><div class="tick tr"></div><div class="tick bl"></div><div class="tick br"></div>
 
-    <dl class="figures">
-      <div>
-        <dt>Apps</dt>
-        <dd data-stat="total">0</dd>
-      </div>
-      <div>
-        <dt>Categorias</dt>
-        <dd data-stat="categories">0</dd>
-      </div>
-      <div>
-        <dt>Tecnologias</dt>
-        <dd data-stat="tech">0</dd>
-      </div>
-    </dl>
+      <div class="cover-content">
+        <div class="kicker">Índice de ferramentas web</div>
+        <h1 class="cover-title">Christian<em>Frank</em></h1>
+        <div class="rule-row">
+          <span>Est. MMXXVI</span>
+          <span class="rule"></span>
+          <span>Apps no navegador</span>
+        </div>
+        <p class="cover-desc">
+          Notas, calculadoras, simuladores e utilitários que construí com HTML, CSS, JavaScript e React.
+          Nada para instalar: é só abrir.
+        </p>
+        <a class="enter-btn" href="#projetos">Entrar no índice →</a>
 
-    <section id="projetos" class="index">
-      <div class="index-head">
-        <h2>Projetos</h2>
+        <dl class="cover-stats">
+          <div class="cell">
+            <dt class="l">Apps</dt>
+            <dd class="n" data-stat="total">0</dd>
+          </div>
+          <div class="cell">
+            <dt class="l">Categorias</dt>
+            <dd class="n" data-stat="categories">0</dd>
+          </div>
+          <div class="cell">
+            <dt class="l">Tecnologias</dt>
+            <dd class="n" data-stat="tech">0</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Índice -->
+  <div class="app" id="projetos">
+    <aside class="side">
+      <div>
+        <a class="logo-link" href="#top">
+          <div class="logo">Christian<br><em>Frank</em></div>
+        </a>
+        <div class="side-sub">Índice — Vol. 01</div>
+      </div>
+
+      <nav class="nav" aria-label="Principal">
+        <div class="nav-label">Seções</div>
+        <a href="#projetos">Projetos</a>
+        <a href="#top">Início</a>
+        <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+
+      <button id="theme-toggle" class="side-btn" type="button"></button>
+
+      <div class="side-stats">
+        <div class="stat"><span>Em índice</span><b data-stat="total">0</b></div>
+        <div class="stat"><span>Categorias</span><b data-stat="categories">0</b></div>
+        <div class="stat"><span>Mostrando</span><b class="red" id="sShowing">0</b></div>
+        <div class="fine">CHRISTIAN FRANK © 2026</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="head">
+        <div class="kicker2">Catálogo</div>
+        <h1>Projetos <em>no navegador</em></h1>
+        <p>Cada app abre direto no navegador. Filtre por categoria ou pressione / para buscar.</p>
+      </header>
+
+      <div class="filters">
         <label class="search">
           <span class="sr-only">Buscar projetos</span>
-          <input id="search" type="search" placeholder="Buscar — pressione /" autocomplete="off">
+          <input id="search" type="search" placeholder="Buscar no índice…" autocomplete="off">
         </label>
+        <div class="chip-group">
+          <span class="chip-label">CATEGORIA</span>
+          <div id="filters" role="group" aria-label="Filtrar por categoria" class="chips"></div>
+        </div>
       </div>
 
-      <div id="filters" class="filters" role="group" aria-label="Filtrar por categoria"></div>
+      <ul id="list" class="grid">
+          <li class="row" data-cat="Ferramentas" style="--delay: 300ms">
+            <div class="row-top"><span class="row-num">01</span><span class="row-cat">Ferramentas</span></div>
+            <a class="row-thumb" href="https://yourdraftnotes.netlify.app/" target="_blank" rel="noopener noreferrer" aria-label="Abrir yourDraftNotes"><img src="img/yourdraftnotes.jpg" alt="" loading="lazy" width="1280" height="800"></a>
+            <h3 class="row-title"><a href="https://yourdraftnotes.netlify.app/" target="_blank" rel="noopener noreferrer">yourDraftNotes</a></h3>
+            <p class="row-desc">Editor de notas no navegador com pastas, notas protegidas por senha (AES-GCM), modo leitura/edição e visualização em grafo.</p>
+            <div class="row-foot"><div class="row-meta">HTML · CSS · JavaScript</div><a class="row-link" href="https://yourdraftnotes.netlify.app/" target="_blank" rel="noopener noreferrer">Abrir app →</a></div>
+          </li>
+          <li class="row" data-cat="Foto &amp; Vídeo" style="--delay: 370ms">
+            <div class="row-top"><span class="row-num">02</span><span class="row-cat">Foto &amp; Vídeo</span></div>
+            <a class="row-thumb" href="https://resolveorganizer.netlify.app/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Resolve Organizer"><img src="img/resolveorganizer.jpg" alt="" loading="lazy" width="1280" height="800"></a>
+            <h3 class="row-title"><a href="https://resolveorganizer.netlify.app/" target="_blank" rel="noopener noreferrer">Resolve Organizer</a></h3>
+            <p class="row-desc">Cria a estrutura padronizada de pastas (Bins) para projetos do DaVinci Resolve: Footage, Audio, Graphics, Proxies e Timelines.</p>
+            <div class="row-foot"><div class="row-meta">HTML · CSS · JavaScript</div><a class="row-link" href="https://resolveorganizer.netlify.app/" target="_blank" rel="noopener noreferrer">Abrir app →</a></div>
+          </li>
+          <li class="row" data-cat="Foto &amp; Vídeo" style="--delay: 440ms">
+            <div class="row-top"><span class="row-num">03</span><span class="row-cat">Foto &amp; Vídeo</span></div>
+            <a class="row-thumb" href="https://lenssimulation.netlify.app/" target="_blank" rel="noopener noreferrer" aria-label="Abrir LensSimulation"><img src="img/lenssimulation.jpg" alt="" loading="lazy" width="1280" height="800"></a>
+            <h3 class="row-title"><a href="https://lenssimulation.netlify.app/" target="_blank" rel="noopener noreferrer">LensSimulation</a></h3>
+            <p class="row-desc">Simulador de objetivas fotográficas: veja como distância focal, abertura e profundidade de campo mudam a imagem.</p>
+            <div class="row-foot"><div class="row-meta">React · JavaScript<span class="badge">Beta</span></div><a class="row-link" href="https://lenssimulation.netlify.app/" target="_blank" rel="noopener noreferrer">Abrir app →</a></div>
+          </li>
+          <li class="row" data-cat="Ferramentas" style="--delay: 510ms">
+            <div class="row-top"><span class="row-num">04</span><span class="row-cat">Ferramentas</span></div>
+            <a class="row-thumb" href="apps/fastreadandwrite/" target="_blank" rel="noopener noreferrer" aria-label="Abrir FastReadAndWrite"><img src="img/fastreadandwrite.png" alt="" loading="lazy" width="1280" height="800"></a>
+            <h3 class="row-title"><a href="apps/fastreadandwrite/" target="_blank" rel="noopener noreferrer">FastReadAndWrite</a></h3>
+            <p class="row-desc">Busca local em pastas do seu computador: leia, edite e proteja com senha seus arquivos de texto, direto no navegador.</p>
+            <div class="row-foot"><div class="row-meta">HTML · CSS · JavaScript</div><a class="row-link" href="apps/fastreadandwrite/" target="_blank" rel="noopener noreferrer">Abrir app →</a></div>
+          </li>
+        </ul>
+      <div id="empty" class="empty" hidden>
+        <div class="big">Nada no índice</div>
+        <p>AJUSTE O FILTRO OU O TERMO DE BUSCA</p>
+      </div>
 
-      <ul id="list" class="list"></ul>
-      <p id="empty" class="empty" hidden>Nenhum projeto com esse termo.</p>
-    </section>
-  </main>
+      <footer class="foot">
+        <span>Christian Frank — ferramentas para o navegador</span>
+        <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">github.com/ccnfrank</a>
+      </footer>
+    </main>
+  </div>
 
-  <footer class="footer">
-    <span>Christian Frank, 2026</span>
-    <a href="https://github.com/ccnfrank" target="_blank" rel="noopener noreferrer">github.com/ccnfrank</a>
-  </footer>
-
-  <script src="js/projects.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
