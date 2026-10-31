@@ -25,4 +25,11 @@ const PROJECTS = [
     url: 'https://lenssimulation.netlify.app/',
     thumb: 'img/lenssimulation.jpg',
   },
+  {
+    title: 'FastReadAndWrite',
+    description: 'Busca local em pastas do seu computador: leia, edite e proteja com senha seus arquivos de texto, direto no navegador.',
+    category: 'Ferramentas',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    url: 'https://fastreadandwrite.netlify.app/',
+  },
 ];
