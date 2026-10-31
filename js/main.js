@@ -11,21 +11,12 @@
 
   let activeCategory = ALL;
   let query = '';
-  const rows = [];
 
   const el = (tag, className, text) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text !== undefined) node.textContent = text;
     return node;
-  };
-
-  const externalLink = (href, text, className) => {
-    const a = el('a', className, text);
-    a.href = href;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    return a;
   };
 
   /* ---------- Tema ---------- */
@@ -44,64 +35,26 @@
   });
 
   /* ---------- Cards ---------- */
-  const buildRow = (project, index) => {
-    const row = el('li', 'row');
-    row.style.setProperty('--delay', `${index * 70 + 300}ms`);
-    row.dataset.search = [project.title, project.description, project.category, ...project.stack]
+  // Os cards são escritos no index.html; aqui só lemos os dados para busca e filtros.
+  const rows = [...list.querySelectorAll('.row')].map((row) => {
+    const text = (selector) => row.querySelector(selector).textContent;
+    const category = row.dataset.cat;
+    const stack = text('.row-meta').split(' · ').map((s) => s.trim());
+
+    row.dataset.search = [text('.row-title'), text('.row-desc'), category, ...stack]
       .join(' ')
       .toLowerCase();
 
-    const top = el('div', 'row-top');
-    top.append(
-      el('span', 'row-num', String(index + 1).padStart(2, '0')),
-      el('span', 'row-cat', project.category),
-    );
-
-    // Miniatura da tela do app: também leva ao site
-    if (project.thumb) {
-      const thumbLink = externalLink(project.url, '', 'row-thumb');
-      thumbLink.setAttribute('aria-label', `Abrir ${project.title}`);
-      const img = el('img');
-      img.src = project.thumb;
-      img.alt = '';
-      img.loading = 'lazy';
-      img.width = 1280;
-      img.height = 800;
-      thumbLink.append(img);
-      row.append(top, thumbLink);
-    } else {
-      row.append(top);
-    }
-
-    const title = el('h3', 'row-title');
-    title.append(externalLink(project.url, project.title));
-
-    const desc = el('p', 'row-desc', project.description);
-
-    const meta = el('div', 'row-meta');
-    meta.append(document.createTextNode(project.stack.join(' · ')));
-    if (project.badge) meta.append(el('span', 'badge', project.badge));
-
-    const foot = el('div', 'row-foot');
-    foot.append(meta, externalLink(project.url, 'Abrir app →', 'row-link'));
-
-    row.append(title, desc, foot);
-    return row;
-  };
-
-  PROJECTS.forEach((project, index) => {
-    const row = buildRow(project, index);
-    list.append(row);
-    rows.push({ row, project });
+    return { row, category, stack };
   });
 
   /* ---------- Filtros e busca ---------- */
-  const categories = [ALL, ...new Set(PROJECTS.map((p) => p.category))];
+  const categories = [ALL, ...new Set(rows.map((r) => r.category))];
 
   const filterButtons = categories.map((category) => {
     const count = category === ALL
-      ? PROJECTS.length
-      : PROJECTS.filter((p) => p.category === category).length;
+      ? rows.length
+      : rows.filter((r) => r.category === category).length;
 
     const btn = el('button', 'filter');
     btn.type = 'button';
@@ -121,8 +74,8 @@
     const q = query.trim().toLowerCase();
     let visible = 0;
 
-    rows.forEach(({ row, project }) => {
-      const matchCategory = activeCategory === ALL || project.category === activeCategory;
+    rows.forEach(({ row, category }) => {
+      const matchCategory = activeCategory === ALL || category === activeCategory;
       const matchQuery = !q || row.dataset.search.includes(q);
       const show = matchCategory && matchQuery;
 
@@ -179,9 +132,9 @@
   };
 
   const figures = {
-    total: PROJECTS.length,
-    categories: new Set(PROJECTS.map((p) => p.category)).size,
-    tech: new Set(PROJECTS.flatMap((p) => p.stack)).size,
+    total: rows.length,
+    categories: new Set(rows.map((r) => r.category)).size,
+    tech: new Set(rows.flatMap((r) => r.stack)).size,
   };
 
   document.querySelectorAll('[data-stat]').forEach((node) => {
