@@ -31,5 +31,6 @@ const PROJECTS = [
     category: 'Ferramentas',
     stack: ['HTML', 'CSS', 'JavaScript'],
     url: 'apps/fastreadandwrite/',
+    thumb: 'img/fastreadandwrite.png',
   },
 ];
